@@ -1,0 +1,16 @@
+scene::do sth.:
+  topic::speed
+  topic::quality 
+  method::divide ->multipe tasks :
+    - type::by rows
+      case::Bus_(computing):
+        url: https://en.wikipedia.org/wiki/Bus_(computing)
+    - type::by columns
+
+
+scene::multiple tasks:
+    case::gulp
+    case::
+    topic::order:
+      type: serial, parallel or mix. Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
+    topic::dependency: {}

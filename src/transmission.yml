@@ -1,0 +1,2 @@
+scene::transmission:
+  case: [river, electric current, harbor, airport, market, computer communication]
