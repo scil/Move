@@ -1,16 +1,32 @@
 scene::do sth.:
-  topic::speed
-  topic::quality 
-  method::divide ->multipe tasks :
-    - type::by rows
-      case::Bus_(computing):
-        url: https://en.wikipedia.org/wiki/Bus_(computing)
-    - type::by columns
+  topic:
+    - speed
+    - quality
+  perspective:
+    - object's perspective -> transmission
+  method:
+    - divide ->multipe tasks :
+      type:
+        - by rows
+        - by columns
 
 
 scene::multiple tasks:
-    case::gulp
-    case::
-    topic::order:
-      type: serial, parallel or mix. Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
-    topic::dependency: {}
+  case: [gulp, ansible]
+  topic:
+    - run order:
+      type: ->serial & parallel
+        - serial. 
+        - parallel
+        - mix. 
+    - dependency:
+
+topic::serial & parallel:
+  topic: Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
+  case:
+    - gulp: 
+      - [Gulp 4: The new task execution system - gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
+      - [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
+    - ansible:
+      - [Feature idea: within-host parallelization for with_items loops](https://github.com/ansible/ansible/issues/10695) Ansible has multi-host parallelism baked into it deeply, but doing any kind of within-host parallelism requires some hackery. 
+      - [Parallel task execution in Ansible](http://toroid.org/ansible-parallel-dispatch)
