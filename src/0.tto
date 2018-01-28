@@ -3,7 +3,7 @@ SCENE do sth.
     -   speed
     -   quality
     PERSPECTIVE
-    -   object's perspective -> transmission
+    -   object's perspective -> stream
     METHOD
     -   divide
             TYPE
@@ -20,16 +20,19 @@ SCENE multiple-tasks
             -   parallel
             -   mix. 
     -   dependency
+            CASE
+            -   gulp: gulp3 define task dependencies bound up with the task , without the ability to only run a task despite its dependencies , without the ability to run dependencies serially. While gulp4 drop the dependency concept.
+                -   [Gulp 4: The new task execution system -   gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
+                -   [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
     -   group & tag
             CASE 
-            -   ansible: playbook contains tasks and roles, roles contain tasks, plus tags.
+            -   ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
+            -   gulp: gulp4 tasks are composed of javascript functions.
 
 TOPIC serial & parallel
     TOPIC Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
     CASE
     -   gulp
-        -   [Gulp 4: The new task execution system -   gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
-        -   [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
-    -   ansible
+    -   ansible: support multi-host parallelism, with_items task parallelism by some tricks, no parallelism for multiple plays or roles or tasks.
         -   [Feature idea: within-host parallelization for with_items loops](https://github.com/ansible/ansible/issues/10695) Ansible has multi-host parallelism baked into it deeply, but doing any kind of within-host parallelism requires some hackery. 
         -   [Parallel task execution in Ansible](http://toroid.org/ansible-parallel-dispatch)
