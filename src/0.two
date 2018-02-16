@@ -12,6 +12,12 @@ SCENE doing
   - more worker
     CASE php-fpm workers; nginx upstream
     TOPIC allocation
+      METHOD
+      - proportion/weight/frequently
+      - history
+        CASE nginx ip_hash
+          INTRO
+          - to avoid having visitors see two different versions of the app on subsequent requests https://www.viget.com/articles/split-test-traffic-distribution-with-nginx/
   - divide
     TYPE
     - by rows
