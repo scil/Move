@@ -1,54 +1,54 @@
 SCENE doing
-    TOPIC
-    -   speed
-    -   quality
-    -   time to get ready
-            TYPE
-            -   after demand
-            -   before demand
-                    CASE FastCGI, connection pool, standing army
-    MIXIN stream WHEN demands or objects LOOKED-AS stream
-    METHOD
-    -   divide
-            TYPE
-            -   by rows
-            -   by columns
-    SUB
-    -   SCENE condition: if
-            TOOL Rule Engine, Rete algorithm
-                - [πÊ‘Ú“˝«Ê](https://zhuanlan.zhihu.com/p/28487660)
-    -   SCENE multiple-tasks
-            TOOL gulp, ansible
-            TOPIC
-            -   run order
-                    TYPE: ->serial-parallel
-                    -   serial. 
-                    -   parallel
-                    -   mix. 
-            -   dependency
-                    TOOL
-                    -   gulp: gulp3 define task dependencies bound up with the task , without the ability to only run a task despite its dependencies , without the ability to run dependencies serially. While gulp4 drop the dependency concept.
-                        -   [Gulp 4: The new task execution system -   gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
-                        -   [ « ±∫Ú…˝º∂ƒ„µƒgulpµΩ4.0¡À](http://www.alloyteam.com/2015/07/update-your-gulp/)
-            -   group & tag
-                    TOOL 
-                    -   ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
-                    -   gulp: gulp4 tasks are composed of javascript functions.
+  TOPIC
+  - speed
+  - quality
+  - time to get ready
+      TYPE
+      - after demand
+      - before demand
+          CASE FastCGI, connection pool, standing army
+  MIXIN stream WHEN demands or objects LOOKED-AS stream
+  METHOD
+  - divide
+      TYPE
+      - by rows
+      - by columns
+  SUB
+  - SCENE condition: if
+      TOOL Rule Engine, Rete algorithm
+      - [ËßÑÂàôÂºïÊìé](https://zhuanlan.zhihu.com/p/28487660)
+  - SCENE multiple-tasks
+      TOOL gulp, ansible
+      TOPIC
+      - run order
+          TYPE: ->serial-parallel
+          - serial.
+          - parallel
+          - mix. 
+      - dependency
+          TOOL
+          - gulp: gulp3 define task dependencies bound up with the task , without the ability to only run a task despite its dependencies , without the ability to run dependencies serially. While gulp4 drop the dependency concept.
+            - [Gulp 4: The new task execution system - gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
+            - [ÊòØÊó∂ÂÄôÂçáÁ∫ß‰Ω†ÁöÑgulpÂà∞4.0‰∫Ü](http://www.alloyteam.com/2015/07/update-your-gulp/)
+      - group & tag
+          TOOL
+          - ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
+          - gulp: gulp4 tasks are composed of javascript functions.
 
 TOPIC serial-parallel
-    TOPIC Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
-    TOOL
-    -   gulp
-    -   ansible: support multi-host parallelism, with_items task parallelism by some tricks, no parallelism for multiple plays or roles or tasks.
-        -   [Feature idea: within-host parallelization for with_items loops](https://github.com/ansible/ansible/issues/10695) Ansible has multi-host parallelism baked into it deeply, but doing any kind of within-host parallelism requires some hackery. 
-        -   [Parallel task execution in Ansible](http://toroid.org/ansible-parallel-dispatch)
+  TOPIC Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
+  TOOL
+  - gulp
+  - ansible: support multi-host parallelism, with_items task parallelism by some tricks, no parallelism for multiple plays or roles or tasks.
+    - [Feature idea: within-host parallelization for with_items loops](https://github.com/ansible/ansible/issues/10695) Ansible has multi-host parallelism baked into it deeply, but doing any kind of within-host parallelism requires some hackery. 
+    - [Parallel task execution in Ansible](http://toroid.org/ansible-parallel-dispatch)
 
 
 TOOL
-    ALIAS resource
-    MIXIN doing: tools are like human
-    TOPIC
-    -   control and change
-            METHOD
-            -   add outer layers
-                    CASE bulb and lampshade, aspect oriented programming, Proxy Pattern, python Decorators
+  ALIAS resource
+  MIXIN doing: tools are like human
+  TOPIC
+  - control and change
+      METHOD
+      - add outer layers
+          CASE bulb and lampshade, aspect oriented programming, Proxy Pattern, python Decorators

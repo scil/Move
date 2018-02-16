@@ -1,13 +1,15 @@
 SCENE stream
-    ALIAS transmission
-    CASE [river, electric current, harbor, airport, park, market, computer communication]
-    CASE
-    -   linux pipe
-    -   Node.js Stream:
-        -   [stream-handbook](https://github.com/jabez128/stream-handbook)
-        -   [Node.js Stream - 实战篇](https://tech.meituan.com/stream-in-action.html)
-        -   [通过node的pipe实现请求代理](http://blog.csdn.net/renbaogang/article/details/53128351)
-    -   Laravel Middleware
-    TOPIC ->serial-parallel
-    TOPIC line up
-        CASE  request queue
+  ALIAS transmission
+  CASE [river, electric current, harbor, airport, park, market, computer communication]
+  CASE
+  - linux pipe
+  - Elixir pipeline
+  - Node.js Stream:
+    INTRO
+    - [stream-handbook](https://github.com/jabez128/stream-handbook)
+    - [Node.js Stream - 瀹炴垬绡嘳(https://tech.meituan.com/stream-in-action.html)
+    - [閫氳繃node鐨刾ipe瀹炵幇璇锋眰浠ｇ悊](http://blog.csdn.net/renbaogang/article/details/53128351)
+  - Laravel Middleware
+  TOPIC ->serial-parallel
+  TOPIC line up
+    CASE  request queue
