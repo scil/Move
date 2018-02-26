@@ -9,16 +9,45 @@ SCENE doing
       CASE FastCGI, connection pool, standing army
   MIXIN stream WHEN demands or objects LOOKED-AS stream
   METHOD
+  - subcontract
+    CASE
+    - OEM
+    - reverse proxy
+    - ghostwriter
+    SUB multiple subcontractors
+      MIXIN more workers
   - divide
     MIXIN multiple-tasks
-    TYPE
+    TYPE/METHOD
     - by rows
     - by columns
+    - ìntroduce intermediate products/tool “计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决”（“Any problem in computer science can be solved by another layer of indirection.”）
+      CASE # todo case多了，应该分类
+      - Trash Can ( trash -> can -> landfill )
+      - container
+      - Assembly code to produce machine code
+      - C language to produce Assembly code
+      - java ByteCode and JVM
+      - php opcode and Zend Virtual Machine
+      - abstract syntax code，AST
+      - docker
+      - Language Server Protocol
   SUB
   - SCENE condition: if
     TOOL Rule Engine, Rete algorithm
       INTRO
       - [规则引擎](https://zhuanlan.zhihu.com/p/28487660)
+  - SCENE Communication, interaction, cooperation
+    METHOD a gate
+      CASE
+      - proxy server
+      - 开闭原则
+    METHOD add a intermediate layer
+      CASE
+      - Plug adaptor
+      - translator
+      - proxy server
+      - ByteCode
   - SCENE multiple-tasks
     TOOL gulp, ansible
     METHOD
@@ -30,10 +59,14 @@ SCENE doing
       TOPIC
       - switch
         METHOD
-        - by time
+        - time-slicing
         - by task priority, urgency or state(sleep or running)
+        - alarm clock
+          CASE epoll
+          TOPIC Snooze; edge-triggered; Level-triggered
         - determind by task self
           CASE coroutine
+            协作多任务在Windows的早期版本(windows95)和Mac OS中有使用, 不过它们后来都切换到使用抢先多任务了. 理由相当明确：如果你依靠程序自动交出控制的话, 那么一些恶意的程序将很容易占用整个CPU, 不与其他任务共享. 在PHP中使用协程实现多任务调度 | 风雪之隅 http://www.laruence.com/2015/05/28/3038.html
         TOPIC switch cost
     - more workers
       CASE php-fpm workers; nginx upstream; 
@@ -63,6 +96,7 @@ SCENE doing
       - ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
       - gulp: gulp4 tasks are composed of javascript functions.
 
+---
 TOPIC serial-parallel
   TOPIC Serial is not always slower than parallel, such as IDE vs SATA, related to mutual interference and rate/frequency
   TOOL
@@ -71,12 +105,31 @@ TOPIC serial-parallel
     - [Feature idea: within-host parallelization for with_items loops](https://github.com/ansible/ansible/issues/10695) Ansible has multi-host parallelism baked into it deeply, but doing any kind of within-host parallelism requires some hackery. 
     - [Parallel task execution in Ansible](http://toroid.org/ansible-parallel-dispatch)
 
-
+---
 TOOL
   ALIAS resource
-  MIXIN doing: tools are like human
+  MIXIN doing // tools are like human
   TOPIC
+  - dependency
+  - distribute
+    METHOD packing
+      CASE
+      - docker
+      - set meal
+  - ready
+    CASE
+    - cache
+    - php-fpm workers
+    METHOD
+    - 事先准备，准备若干或准备全部将用数量
+    - 用时就绪，然后缓存或不缓存
   - control and change
     METHOD
     - add outer layers
       CASE bulb and lampshade, aspect oriented programming, Proxy Pattern, python Decorators
+      
+
+---
+层？
+集装箱
+cpu -> 操作系统 -> jvm/.net -> softwares
