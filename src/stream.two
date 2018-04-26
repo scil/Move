@@ -2,6 +2,10 @@ SCENE stream
   ALIAS transmission
   CASE [river, electric current, harbor, airport, park, market, computer communication]
   CASE
+  - 流水线
+  - 流式分层编译器
+使WebAssembly更快：Firefox最新的流式分层编译器 - CSDN博客
+https://blog.csdn.net/ahence/article/details/79177572
   - linux pipe
   - Elixir pipeline
   - Node.js Stream:
@@ -9,6 +13,7 @@ SCENE stream
     - [stream-handbook](https://github.com/jabez128/stream-handbook)
     - [Node.js Stream - 实战篇](https://tech.meituan.com/stream-in-action.html)
     - [通过node的pipe实现请求代理](http://blog.csdn.net/renbaogang/article/details/53128351)
+  - Laravel学习笔记之Decorator Pattern https://segmentfault.com/a/1190000006919258 上面的代码，其实和laravel用闭包一样，每个middleware都会引用另外一个middlware，($this->middleware = $middleware;) 这样程序运行时，就能使middleware一个接一个地运行; 和一般理解的装饰器不同的： 1.这里是连续多个装饰器(py应该也能同时添加多个吧,而且关系是不断嵌套的) 2.装饰的不是函数，而是一个对象request   // 进进出出 ，和nginx+fpm两个服务器上数据流的流向相同,都是嵌套的
   - Laravel Middleware
   TOPIC ->serial-parallel
   TOPIC line up

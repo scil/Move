@@ -1,7 +1,26 @@
 SCENE doing
-  TOPIC
+  FIRST pick up who. 确实执行主体。process? thread? a gui button? a class/object?
+  GOTO status 常用在委派中，把复杂性和风险交给别人
+  TOPIC（或指标、评估项）
   - speed
   - quality
+  - Idempotence 多次操作对被操作对象的side-effects is the same as for a single 操作
+    CASE http 幂等性是分布式系统设计中十分重要的概念 http://www.cnblogs.com/weidagang2046/archive/2011/06/04/2063696.html
+    CASE ansible :  
+      READ creates parameter exists, the command will not be run. Here is the new task https://ryaneschinger.com/blog/ensuring-command-module-task-is-repeatable-with-ansible/  是否是一个普遍方法：做不了就不再做 或满足一定条件就不再做 通过（后续的）不作为来避免重复操作的问题（而事务方法，是第一次不轻易做出来）
+      READ https://shadow-soft.com/ansible-idempotency-configuration-drift/   ansible设计上考虑了 idempotency， 但编写tasks时（其实就是使用ansible语言编程），也要考虑 idempotency
+  - manage task // 是否直接叫：SPACE ？
+    MIXIN [Communication, interaction, cooperation]
+    TYPE/SPACE(这个术语如何)
+    - exit
+    - pause,sleep 
+    - Suspend/pause or pause一定时长  
+      CASE kill -STOP pid
+      CASE linux: pause()  sleep()          如果用sleep() 进程将阻塞  假设进程下有两个线程 那么这两个线程会继续运行https://www.zhihu.com/question/21073049
+      CASE Linux下做开发时，我们都熟知Ctrl+Z的指令，作用就是把当前运行的程序转到后台，暂停执行，等到合适的时候再使用fg指令把这个程序调出来再次执行
+    - 恢复
+      CASE kill -CONT pid
+    - kill     CASE  linux pause()和sleep()  前者接受到信号后才恢复运行 
   - time to get ready
     TYPE
     - after demand
@@ -16,6 +35,7 @@ SCENE doing
     - ghostwriter
     SUB multiple subcontractors
       MIXIN more workers
+  - event/alarm clock: 不把资源闲置在等待上 非阻塞  有时候人的行为是阻塞的，譬如迎接重大事件一分一秒地来临、逼债和坐阵指挥
   - divide
     MIXIN multiple-tasks
     TYPE/METHOD
@@ -32,69 +52,134 @@ SCENE doing
       - abstract syntax code，AST
       - docker
       - Language Server Protocol
+      - 标志一个主体或资源的名字，可映射一套别名 如 MAC - IP ,  IP - domain, PHP中有class_alias 
+      - 适配器模式(Adapter Pattern) 对象适配模式;类适配器;双向适配器
+      
+SCENE status
+  CASE SaltStack ansible puppet 
+  CASE powershell  Desired State Configuration (DSC) https://docs.microsoft.com/en-us/powershell/dsc/quickstart
+  CASE 命令部队当晚一定要到达指定位置。
+
+SCENE condition: if(SCENE doing)   
+  TOOL Rule Engine, Rete algorithm
+    INTRO
+    - [规则引擎](https://zhuanlan.zhihu.com/p/28487660)
+    
+SCENE 状态、指标或评估项的实现
+  METHOD
+  - 开发时、行动时注意
+  - 常规检查
+    如 Removing or Minimizing Drift with Ansible   using “-check” and “-diff”.   https://shadow-soft.com/ansible-idempotency-configuration-drift/
+    This is an Ansible role to run idempotence tests. https://galaxy.ansible.com/amtega/idempotence_tester/
+      
+SCENE share 共享 共用 公共服务(SCENE doing)   
+  CASE 进程和线程的一大区别 进程间的数据不能简单共享
+  CASE share memory 共享内存
+  TOPIC
+  - Copy On Write，COW
+  - 资源竞争、资源分配，工具服务 资源访问控制 如cpu资源、文件资源    竞态条件（race condition）多个并发的进程彼此之间围绕着紧俏的资源产生了两种关系，同步或互斥。而信号量正式解决资源竞争的最有效途径。http://blog.csdn.net/yangkuiwu/article/details/52674809  信号量的主要目的是为了保护临界资源。
+    CASE 线程安全 线程带来数据共享，也就带来了安全问题
+      CPython的GIL GIL 的作用是：对于一个解释器，只能有一个thread在执行bytecode。所以每时每刻只有一条bytecode在被执行一个thread。GIL保证了bytecode 这层面上是thread safe的 https://www.zhihu.com/question/23030421
+
+
+SCENE Communication, interaction, cooperation，调用，命令 (SCENE doing)   
   SUB
-  - SCENE condition: if
-    TOOL Rule Engine, Rete algorithm
+  - 通信
+    CASE 进程间、网络间、遥控器和空调之间
+      对于理解 TCP 和 UDP 之间的区别来说，一个有用的类比就是电话呼叫和邮寄信件之间的区别 https://www.ibm.com/developerworks/cn/education/linux/l-sock/l-sock.html
+      TCP:来自任何一方的谈话都按临时的顺序发生 ; 这个顺序性，同样出现在进程间的通道
+  - 响应外部情况
+  - 接受外部控制
+  CASE 这是由中断(Interrupt)机制实现的,每个设备都有一条中断线,通过中断控制器连接到CPU,当设备需要主动通知CPU时就引发一个中断信号 http://blog.csdn.net/jnu_simba/article/details/8806501
+  CASE linux signal( process-(os)-process; hardware-(os)-process; )  传递信息、控制
+  CASE [共享内存] // link or use goto?
+  CASE music player
+  TOPIC/评估 幂等性        基础篇（一）幂等性
+    CASE ansible     大多数标准的Ansible模块是幂等的   状态模块与Ansible模块更相似，通过参数定义一个状态，而模块则尝试满足该最终状态。通常状态模块调用执行模块来完成工作。http://www.cnblogs.com/huang0925/p/4664608.html
+  TOPIC control level
+    CASE Difference between SIGKILL SIGTERM
+  METHOD a gate  其实是“add a intermediate layer”的一种特殊情况
+    CASE
+    - API
+    - 110
+    - proxy server
+    - 开闭原则
+    - 门面模式（Facade Pattern 外观模式） http://blog.csdn.net/xingjiarong/article/details/50066133  
+    - 适配器模式(Adapter Pattern) 对象适配模式;类适配器;双向适配器
+      CASE socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信
+  METHOD add a intermediate layer
+    CASE
+    - Plug adaptor
+    - translator
+    - proxy server
+    - ByteCode
+  SUB 1-more
+    CASE
+    - 数据库设计
+    - saltstack ZeroMQ 方式和ssh方式，后者和ansible一样，集中配置ip地址。 是在 salt-minion中配置 master 的 ip 使minion连上master的。为啥不采用在salt-master 中配置各个minion 的 ip 的方式来连接呢？https://segmentfault.com/q/1010000006039824
+    - 客户端-服务器 好像都是客户端知道服务器的地址，主动发起请求 如http websocket
+
+
+SCENE multiple-tasks(SCENE doing)   
+  TOOL gulp, ansible
+  GOTO [doing]
+  SPACE
+  - list
+  METHOD
+  - Multitasking
+    CASE  Time-sharing operating System; application Multithreading
       INTRO
-      - [规则引擎](https://zhuanlan.zhihu.com/p/28487660)
-  - SCENE Communication, interaction, cooperation
-    METHOD a gate
-      CASE
-      - proxy server
-      - 开闭原则
-    METHOD add a intermediate layer
-      CASE
-      - Plug adaptor
-      - translator
-      - proxy server
-      - ByteCode
-  - SCENE multiple-tasks
-    TOOL gulp, ansible
-    METHOD
-    - Multitasking
-      CASE  Time-sharing operating System; application Multithreading
-        INTRO
-          Differences Between Multithreading and Multitasking for Programmers http://www.ni.com/white-paper/6424/en/
-      CASE coroutine
-      TOPIC
-      - switch
-        METHOD
-        - time-slicing
-        - by task priority, urgency or state(sleep or running)
-        - alarm clock
-          CASE epoll
-          TOPIC Snooze; edge-triggered; Level-triggered
-        - determind by task self
-          CASE coroutine
-            协作多任务在Windows的早期版本(windows95)和Mac OS中有使用, 不过它们后来都切换到使用抢先多任务了. 理由相当明确：如果你依靠程序自动交出控制的话, 那么一些恶意的程序将很容易占用整个CPU, 不与其他任务共享. 在PHP中使用协程实现多任务调度 | 风雪之隅 http://www.laruence.com/2015/05/28/3038.html
-        TOPIC switch cost
-    - more workers
-      CASE php-fpm workers; nginx upstream; 
-      CASE multi-core; multiprocessor
-        INTRO 多核 CPU 和多个 CPU 有何区别？ https://www.zhihu.com/question/20998226
-      TOPIC allocation
-        METHOD
-        - proportion/weight/frequently
-        - history
-          CASE nginx ip_hash
-            INTRO
-            - to avoid having visitors see two different versions of the app on subsequent requests https://www.viget.com/articles/split-test-traffic-distribution-with-nginx/
+        Differences Between Multithreading and Multitasking for Programmers http://www.ni.com/white-paper/6424/en/
+    CASE coroutine (切换回来前进入队列，而进入队列也需要事件) （coroutine保存任务现场，而callback则是把后续任务打包出去，和现场脱离关系）
+    CASE js callback; epoll （callback进入队列需要事件）
     TOPIC
-    - run order
-      TYPE: ->serial-parallel
-      - serial.
-      - parallel
-      - mix. 
-    - dependency
-      TOOL
-      - gulp: gulp3 define task dependencies bound up with the task , without the ability to only run a task despite its dependencies , without the ability to run dependencies serially. While gulp4 drop the dependency concept.
-        INTRO
-        - [Gulp 4: The new task execution system - gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
-        - [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
-    - group & tag
-      TOOL
-      - ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
-      - gulp: gulp4 tasks are composed of javascript functions.
+    - Reentrant Function http://blog.csdn.net/jnu_simba/article/details/8948701
+    - 任务调度
+      METHOD
+      - time-slicing
+      - by task priority, urgency or state(sleep or running)
+      - alarm clock
+        CASE epoll    epoll_wait在调用时，在给定的timeout时间内，可得到监控句柄中的事件
+        TOPIC Snooze; edge-triggered; Level-triggered
+      - 一种模型：主线程/进程和分派，分派的任务完成后，数据又回到主线程/进程
+        CASE js浏览器的多线程 浏览器则开启一个新的线程来处理这些请求，这些线程将任务交给操作系统、或者网络服务等去执行。很显然是这里开启新线程和JavaScript 单线程并不冲突，这些线程隶属于浏览器进程，与JavaScript 线程并行运行。http://blog.csdn.net/ebay/article/details/50952294    当遇到异步代码时，代码扔给webapi 异步执行，主程序勇往直前，继续运行 https://www.zhihu.com/question/66091622     分派的任务完成后，绑定在事件上的回调进入队列，一个个地执行。注意：js的回调函数仍然是回到主线程上运行的，而swoole的 TaskWorker只把结果返回给worker     
+        CASE swoole 的 reactor(epoll) 和 worker 
+        CASE swoole的worker和TaskWorker进程，类似js浏览器的多线程，网络、渲染等放到主进程/主线程之外
+      TYPE_GROUP
+      - 主动交出控制权
+        CASE linux sleep()让出一定时长,但可被信号中断；pause()让进程暂停让出CPU直到信号出现
+        CASE coroutine
+          协作多任务在Windows的早期版本(windows95)和Mac OS中有使用, 不过它们后来都切换到使用抢先多任务了. 理由相当明确：如果你依靠程序自动交出控制的话, 那么一些恶意的程序将很容易占用整个CPU, 不与其他任务共享. 在PHP中使用协程实现多任务调度 | 风雪之隅 http://www.laruence.com/2015/05/28/3038.html
+      - 外部强行剥夺控制权
+      TOPIC switch cost
+  - more workers
+    CASE php-fpm workers; nginx upstream; 
+    CASE multi-core; multiprocessor
+      INTRO 多核 CPU 和多个 CPU 有何区别？ https://www.zhihu.com/question/20998226
+    TOPIC [share]
+    TOPIC allocation
+      METHOD
+      - proportion/weight/frequently
+      - history
+        CASE nginx ip_hash
+          INTRO
+          - to avoid having visitors see two different versions of the app on subsequent requests https://www.viget.com/articles/split-test-traffic-distribution-with-nginx/
+  TOPIC
+  - run order
+    TYPE: ->serial-parallel
+    - serial.
+    - parallel
+    - mix. 
+  - dependency
+    TOOL
+    - gulp: gulp3 define task dependencies bound up with the task , without the ability to only run a task despite its dependencies , without the ability to run dependencies serially. While gulp4 drop the dependency concept.
+      INTRO
+      - [Gulp 4: The new task execution system - gulp.parallel and gulp.series](https://fettblog.eu/gulp-4-parallel-and-series/)
+      - [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
+  - group & tag
+    TOOL
+    - ansible: A playbook is composed of plays, a play is composed of tasks and roles, a role composed of tasks. Play and Tasks can be tagged. Related commands: ansible-playbook [--tags <tag>], ansible-role
+    - gulp: gulp4 tasks are composed of javascript functions.
 
 ---
 TOPIC serial-parallel
@@ -107,10 +192,14 @@ TOPIC serial-parallel
 
 ---
 TOOL
-  ALIAS resource
-  MIXIN doing // tools are like human
-  TOPIC
-  - dependency
+  ALIAS resource; agent
+  MIXIN [doing] // tools are like human
+  SUB multiple
+    TOPIC
+    - dependency
+    - [Communication, interaction, cooperation]
+  TOPIC & SPACE
+  - 可幂等性  接受多次identical 请求、操作后，side-effects一样。注意，可幂等性针对操作的被操作者。幂等性谈的是操作或操作人。
   - distribute
     METHOD packing
       CASE
@@ -132,4 +221,66 @@ TOOL
 ---
 层？
 集装箱
-cpu -> 操作系统 -> jvm/.net -> softwares
+工具系统的层次：
+  cpu -> 操作系统 -> jvm/.net api -> softwares
+  4层或TCP/IP 
+  交通运输：路、车辆行人的交通规则如靠右和红绿灯、货运公司的收发货规则
+能动系统的层次
+  马斯洛需求层次
+===
+虽然有这个层次，高层次依赖低层次，但不意味着：低层次必须全面完善后，才能有高层次。譬如
+  路由算法，寻找最近的路，属于7层中的第3层，但没有这个算法，也能发展上面的层。
+  人吃穿住还没达到“高”水平，但也能追求其它的。
+高层能否用低层解释？如人的思维能否用脑细胞、蛋白质等解释？计算机计算、计算机上的作品能否用电子解释？反正我觉得后者不能，后者的关键是人给物质映射上了数字，又给数字映射上了其它东西（“数字”化是计算机一切处理工作的信息表示基础。在计算机里,一切信息都是采用数字化的形式表示的,无论它原本是什么。无论是数值、文字,还是图形、声音等等,在计算机里都统一到二进制的数字化表示上。数字化是计算机的一种基本特征,也是计算机通用性的一个重要基础。https://baike.1688.com/doc/view-d42078140.html）
+同样，高层离不开低层，但低层决定了高层吗？某党来自人民，人民决定了某党吗？
+人吃的食品决定了所想吗？高层吃的进口食品决定了思想开放？
+
+
+映射
+物理 和 二进制
+      MMU(MemoryManagement Unit)将VA映射到PA是以页(Page)为单位的,32位处理器的页尺寸通常是4KB。例如,MMU可以通过一个映射项将VA的一页0xb7001000~0xb7001fff映射到PA的一页0x2000~0x2fff,如果CPU执行单元要访问虚拟地址0xb7001008,则实际访问到的物理地址是0x2008。物理内存中的页称为物理页面或者页帧(PageFrame)。虚拟内存的哪个页面映射到物理内存的哪个页帧是通过页表(PageTable)来描述的,页表保存在物理内存中,MMU会查找页表来确定一个VA应该映射到什么PA。
+  CPU是怎么实现运算的 ？ (7 封私信 / 33 条消息)CPU是怎么实现运算的 ？ - 知乎
+https://www.zhihu.com/question/24648757
+==
+hash 
+当我们得到一个字符串的键名，我们必须使用哈希算法计算得到哈希后的值，并且能够通过哈希值索引找到 arData 中对应的那个元素。
+[译] PHP7 数组：HashTable - ≈正念≈
+http://joshuais.me/yi-php7-shu-zu-hashtable/
+
+资源前置和提前准备
+CDN
+-
+C标准库之所以会从内核预读一些数据放 在I/O缓冲区中,是希望用户程序随后要用到这些数据,
+用Unbuffered I/O函数每次读写都要进内核,调一个系统调用比调一个用户空间的函数要慢很 多,所以在用户空间开辟I/O缓冲区还是必要的,用C标准I/O库函数就比较方便,省去了自己 管理I/O缓冲区的麻烦。 用c标准I/O库函数要时刻注意I/O缓冲区和实际文件有可能不一致,在必要时需调 用fflush(3) 。 
+http://blog.csdn.net/jnu_simba/article/details/8806613
+-
+资源池
+如 php内存池 http://blog.csdn.net/njys1/article/details/78886227 作为语言级的应用、这种损耗不太能接受、所以php实现了自己的内存池ZendMM，来替代glibc的malloc和free、以解决内存频繁分配、释放的问题
+
+
+
+
+
+
+应对
+====
+攻击而非防守 开辟新战场
+晚清时提出突袭日本未被许可
+他是四川第一人，晚清时提出突袭日本未被... 来自老孙微谈 - 微博
+https://weibo.com/6327834974/G8oRfbLI5?type=comment#_rnd1521685668485
+好人卡灰狼：所以明治天皇打赢甲午后哭了，当时日本穷得哒哒滴，一旦输了就是亡国
+--
+借刀杀人
+3月21日 20:30 来自 微博 weibo.com
+研究表明，虽然孟买桑杰甘地国家公园周围的豹子有时也吃猪、鹿等动物，但它们主要的食物来源是野狗。根据维持豹子生存所需的食物量和野狗的体型，研究人员估计每年大约会有1500条野狗被豹子捕食。每年大约防止了1000起被野狗咬伤的事件，和大约90起狂犬病病例的发生。
+@美国国家地理频道
+发布了头条文章：《印度又搞事儿，这回是关于豹子的？
+研究表明，虽然孟买桑杰甘地国家公园周围的... 来自美国国家地理频道 - 微博
+https://weibo.com/1868074863/G8r55ooZQ?type=comment
+
+
+资源提供、服务
+按需加载 如页面上的图片、js；服务器进程；laravelfly上的defer service； 涉及到细粒度，如网页上的图片; 为什么js的按需加载没落了，反而都是打包了
+提前加载：fpm
+-
+缓存：如log暂时写入、运输车暂时不运输、对于小数据nginx服务器暂时不输出数据
